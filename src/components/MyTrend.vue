@@ -1,7 +1,7 @@
 <template>
   <div class="com-container">
-      <div class="title">
-        <span>销量趋势</span><span class="iconfont icon-xiangxiajiantou jiantou" @click="showselect = !showselect"></span>
+      <div class="title" :style="fonts">
+        <span>| {{showTitle}}</span><span class="iconfont icon-xiangxiajiantou jiantou" @click="showselect = !showselect" :style="fonts"></span>
         <div v-show="showselect" class="selectItem" v-for="(item,index) in selectTypes" :key="index" @click="tabTypes(item.key)">
          {{item.text}}
         </div>
@@ -19,7 +19,9 @@ export default {
         allData:null,
         showselect:false,
         fontsize:null,
-        choiceType:'map'
+        choiceType:'map',
+        font:0
+        
       }
     },
     computed:{
@@ -27,10 +29,30 @@ export default {
         if(!this.allData){
           return []
         }else{
-          return this.allData.type
+          //把标题数组中的存在大标题的标题给去掉,大标题showTitle是什么，就把type里的某一项去掉，过滤数组后返回
+         return  this.allData.type.filter((item)=>item.text!=this.showTitle)
+          // return this.allData.type
         }
         
+      },
+      showTitle(){
+        // const choiceType = this.choiceType
+        if(!this.allData){
+          return ''
+        }else{
+            return this.allData[this.choiceType].title
+        }
+      },
+      fonts(){
+        if(!this.font){
+          return {
+            fontSize:'16px'
+          }
+        }
+        return {
+          fontSize:this.font+'px'
       }
+    }
     },
     mounted(){
       this.initChart(),
@@ -148,10 +170,18 @@ export default {
       },
       // 4.分辨率适配，例如：文字大小
       screenApdapter(){
-      this.fontsize = this.$refs.trend_ref.offsetWidth/40
+      this.font = this.$refs.trend_ref.offsetWidth/50
         const adapterOption ={
+          legend:{
+            itemWidth:this.font/1.5,
+            itemHeight:this.font/1.5,
+              textStyle:{
+                fontsize:this.font
+              }
+          }
         }
         this.chartInstance.setOption(adapterOption)
+
 
         this.chartInstance.resize()
       },
@@ -159,7 +189,7 @@ export default {
       tabTypes(type){
         this.choiceType = type
         this.updateChart()
-        
+        this.showselect = false
       }
     }
 }
@@ -171,10 +201,11 @@ export default {
     top:20px;
     left:30px;
     color:#fff;
-    width: 100px;
     z-index:5;
+    font-size: 16px;
     .selectItem{
       cursor: pointer;
+      background: rgba(34, 39, 51,.3);
     }
     .jiantou{
       padding-left: 10px;
