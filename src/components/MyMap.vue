@@ -20,7 +20,7 @@ export default {
     mounted(){
         this.initChart()
         window.addEventListener('resize',this.screenApdapter)
-        this.screenApdapter()
+        this.screenApdapter()    
     },
     beforeDestroy(){
         window.removeEventListener('resize',this.screenApdapter)
