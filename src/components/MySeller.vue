@@ -100,10 +100,10 @@ export default {
                   offset:0,
                   color:'#5052EE'
                 },
-            {
-              offset:1,
-              color:'#AB6EE5'
-            }])
+                {
+                  offset:1,
+                  color:'#AB6EE5'
+                }])
               }
             }
           ]
