@@ -8,6 +8,7 @@ import * as API from '@/api'
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/assets/css/global.less'
 
+
 Vue.prototype.$echarts = window.echarts
 
 Vue.use(ElementUI);
